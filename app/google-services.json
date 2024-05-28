@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "790561266387",
+    "project_id": "droppopproject-98b10",
+    "storage_bucket": "droppopproject-98b10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790561266387:android:db11e81ae8173792cc5226",
+        "android_client_info": {
+          "package_name": "com.example.droppopproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHsL2rbJdSY6BeJsi4ALWCtOReBoQuGC0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

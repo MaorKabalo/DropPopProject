@@ -1,0 +1,49 @@
+<resources>
+
+    <!-- App Name -->
+    <string name="app_name">DropPopProject</string>
+
+    <!-- BALL JSON FIELD NAMES -->
+    <string name="BALL_JSON_ANGLE">angle</string>
+    <string name="BALL_JSON_APPLY_PHYSICS">applyPhysics</string>
+    <string name="BALL_JSON_CHECK_GAME_OVER">checkGameOver</string>
+    <string name="BALL_JSON_TYPE">type</string>
+    <string name="BALL_JSON_VX">vx</string>
+    <string name="BALL_JSON_VY">vy</string>
+    <string name="BALL_JSON_X">x</string>
+    <string name="BALL_JSON_Y">y</string>
+
+
+    <!-- Firebase & Shared Preferences Strings -->
+    <string name="DB_Firestore_Scores_Field_Name">users</string>
+    <string name="DB_Firestore_Users_Collection_Name">users</string>
+
+    <string name="Shared_Pref_Balls_Name">BALLS</string>
+    <string name="IS_GUEST">is_guest</string>
+    <string name="RESET_SP">resetSP</string>
+    <string name="SCORE">SCORE</string>
+    <string name="ENABLE">enable</string>
+
+    <!-- Firebase Firestore Errors -->
+    <string name="DB_ERROR_AT_LEAST_4_CHARACTERS">Username must be at least 4 characters long</string>
+    <string name="DB_ERROR_CREATE_USER">Failed to create user. Please try again later.</string>
+    <string name="DB_ERROR_EMAIL_ALREADY_TAKEN">Email address is already in use</string>
+    <string name="DB_ERROR_EMAIL_OR_PASSWORD_IS_INVALID">Email or password in invalid format, password must have at least 6 characters</string>
+    <string name="DB_ERROR_EMAIL_PASSWORD_IS_EMPTY">The email or the password are empty</string>
+    <string name="DB_ERROR_LOG_IN">Email or Password are incorrect / User is not created</string>
+
+
+    <!-- Fragments -->
+    <string name="hello_blank_fragment">hello_blank_fragment</string>
+    <string name="LEADERBOARD_NO_SCORES">There are no scores for this user yet!</string>
+
+    <!-- Tabs -->
+    <string name="TAB_LEADERBOARD">Leaderboard</string>
+    <string name="TAB_PLAY">Play</string>
+    <string name="TAB_SETTINGS">Settings</string>
+
+     <!-- Create Custom Balls -->
+     <string name="MAX_BALLS_CREATED">Max Custom Balls are Created! Returning back to home</string>
+
+
+</resources>
