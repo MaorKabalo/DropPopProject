@@ -30,8 +30,4 @@ To start playing Suika Game:
 - **Game Developer**: [Maor Kabalo]
 - **Graphics Designer**: [Maor Kabalo]
 
-## License
-
-Suika Game is a private project and is not available for distribution. All rights reserved.
-
 Enjoy smashing objects and have fun playing DropPop Game! 🎮
