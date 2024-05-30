@@ -9,6 +9,8 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -477,9 +479,46 @@ public class CreateBallsCanvas extends View {
      * @return A Bitmap representing a circular shape, typically used for graphical purposes.
      */
     public Bitmap getBitmapCanvas() {
-        return cropCircle(mExtraBitmap);
+        if(CameraOptions.photoTaken){
+            Bitmap bitmap = getBitmapFromImageView(circleView);
+            circleView.setImageBitmap(null);
+            CameraOptions.photoTaken = false;
+            return bitmap;
+        }
+        else {
+            return cropCircle(mExtraBitmap);
+        }
+
     }
 
+
+    /**
+     * Converts a Drawable to a Bitmap.
+     *
+     * @param imageView The imageView to fetch.
+     * @return The resulting Bitmap.
+     */
+    public Bitmap getBitmapFromImageView(ImageView imageView) {
+
+        Drawable drawable = imageView.getDrawable();
+
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
+
+        int width = drawable.getIntrinsicWidth();
+        int height = drawable.getIntrinsicHeight();
+        if (width <= 0) width = 1;
+        if (height <= 0) height = 1;
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
 
 
 

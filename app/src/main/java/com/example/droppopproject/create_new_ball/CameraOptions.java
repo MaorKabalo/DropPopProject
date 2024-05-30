@@ -4,6 +4,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.ImageView;
@@ -28,6 +34,8 @@ public class CameraOptions extends AppCompatActivity {
     private final ImageView imageTestView;
     private ActivityResultLauncher<Intent> cameraLauncher;
     private ActivityResultLauncher<String> galleryLauncher;
+
+    public static boolean photoTaken = false;
 
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 101;
 
@@ -57,7 +65,8 @@ public class CameraOptions extends AppCompatActivity {
                             Intent data = result.getData();
                             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                             if (bitmap != null) {
-                                imageTestView.setImageBitmap(bitmap);
+                                photoTaken = true;
+                                imageTestView.setImageBitmap(getCircularBitmap(bitmap));
                             }
                         }
                     }
@@ -70,6 +79,7 @@ public class CameraOptions extends AppCompatActivity {
                     public void onActivityResult(Uri uri) {
                         Bitmap bitmap = getBitmapFromUri(uri);
                         if (bitmap != null) {
+                            photoTaken = true;
                             imageTestView.setImageBitmap(bitmap);
                         }
                     }
@@ -124,6 +134,38 @@ public class CameraOptions extends AppCompatActivity {
             e.printStackTrace();
             return null;
         }
+    }
+
+
+    private Bitmap getCircularBitmap(Bitmap bitmap) { //createBallsCanvas.circleView
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int minDimension = Math.min(width, height);
+
+        // Create a new bitmap with the same width and height
+        Bitmap output = Bitmap.createBitmap(minDimension, minDimension, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(output);
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, minDimension, minDimension);
+
+        float radius = minDimension / 2f;
+
+        paint.setAntiAlias(true);
+        paint.setFilterBitmap(true);
+        paint.setDither(true);
+
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(Color.parseColor("#BAB399"));
+
+        // Draw a circle
+        canvas.drawCircle(radius, radius, radius, paint);
+
+        // Use SRC_IN mode to retain only the intersection of the circle and the bitmap
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
     }
 
 }

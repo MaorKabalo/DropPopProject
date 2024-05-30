@@ -62,6 +62,8 @@ public class CreateNewBallsActivity extends AppCompatActivity {
 
     private CameraOptions mCameraOptions;
 
+
+
     /**
      * Initializes views and sets up the activity.
      */
@@ -82,7 +84,7 @@ public class CreateNewBallsActivity extends AppCompatActivity {
 
 
 
-        mCameraOptions = new CameraOptions(this, imageTestView);
+        mCameraOptions = new CameraOptions(this, createBallsCanvas.circleView);
 
         // Initialize color buttons
         initializeColorButtons();
@@ -122,7 +124,11 @@ public class CreateNewBallsActivity extends AppCompatActivity {
         undoButton.setOnClickListener(v -> createBallsCanvas.undo());
         nextButton.setOnClickListener(v -> {
 
+
+
             Bitmap createdBall = createBallsCanvas.getBitmapCanvas();
+
+
             //saveBitmapAsJPEG(createdBall);
             imageTestView.setImageBitmap(createdBall);
             mCreatedCustomBalls.add(createdBall);
@@ -219,6 +225,9 @@ public class CreateNewBallsActivity extends AppCompatActivity {
             mCreatedCustomBalls.clear();
         }
     }
+
+
+
 
 
 }
