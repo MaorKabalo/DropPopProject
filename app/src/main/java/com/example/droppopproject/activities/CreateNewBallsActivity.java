@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Camera;
@@ -124,10 +125,7 @@ public class CreateNewBallsActivity extends AppCompatActivity {
         undoButton.setOnClickListener(v -> createBallsCanvas.undo());
         nextButton.setOnClickListener(v -> {
 
-
-
             Bitmap createdBall = createBallsCanvas.getBitmapCanvas();
-
 
             //saveBitmapAsJPEG(createdBall);
             imageTestView.setImageBitmap(createdBall);
@@ -158,7 +156,7 @@ public class CreateNewBallsActivity extends AppCompatActivity {
             }
         });
         cameraButton.setOnClickListener(v -> {
-            mCameraOptions.takePhoto();
+            showPhotoDialog();
         });
 
 
@@ -227,7 +225,28 @@ public class CreateNewBallsActivity extends AppCompatActivity {
     }
 
 
+    private void showPhotoDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.choose_photo_option_dialog);
+
+        dialog.findViewById(R.id.use_camera).setOnClickListener(view -> {
+            mCameraOptions.takePhoto();
+            dialog.cancel();
+        });
+
+        dialog.findViewById(R.id.use_gallery).setOnClickListener(view -> {
+            mCameraOptions.chooseFromGallery();
+            dialog.cancel();
+        });
+
+        dialog.show();
+
+    }
+
+
 
 
 
 }
+
+
