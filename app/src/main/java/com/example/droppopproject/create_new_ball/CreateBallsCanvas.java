@@ -476,7 +476,7 @@ public class CreateBallsCanvas extends View {
 
 
     /**
-     * Retrieves a bitmap with a circular shape drawn onto it.
+     * Retrieves the final bitmap which is played in the game
      *
      * @return A Bitmap representing a circular shape, typically used for graphical purposes.
      */
@@ -495,9 +495,9 @@ public class CreateBallsCanvas extends View {
 
 
     /**
-     * Converts a Drawable to a Bitmap.
+     * Get the bitmap on imageView.
      *
-     * used when choosing a photo or capturing
+     * used when choosing a photo or capturing, scaling it appropriately to default game balls
      *
      * @param imageView The imageView to fetch.
      * @return The resulting Bitmap.

@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.signupButton).setOnClickListener(view -> showSignUpDialog());
         findViewById(R.id.loginButton).setOnClickListener(view -> loginUser());
         findViewById(R.id.guestButton).setOnClickListener(view -> {
+            progressBar.setVisibility(View.VISIBLE);
             mBallsSharedPreferences.setIsGuest(true);
             startActivity(intent);
         });

@@ -137,35 +137,53 @@ public class CameraOptions extends AppCompatActivity {
     }
 
 
-    private Bitmap getCircularBitmap(Bitmap bitmap) { //createBallsCanvas.circleView
+    /**
+     * Converts a given bitmap into a circular bitmap (to put in circleView).
+     *
+     * @param bitmap The input bitmap to be converted into a circular bitmap.
+     * @return A circular bitmap generated from the input bitmap.
+     */
+    private Bitmap getCircularBitmap(Bitmap bitmap) {
+        // Get the width and height of the input bitmap
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
+        // Determine the minimum dimension between width and height
         int minDimension = Math.min(width, height);
 
         // Create a new bitmap with the same width and height
         Bitmap output = Bitmap.createBitmap(minDimension, minDimension, Bitmap.Config.ARGB_8888);
 
+        // Create a canvas for drawing on the output bitmap
         Canvas canvas = new Canvas(output);
+        // Create a paint object for drawing
         final Paint paint = new Paint();
+        // Create a rectangle representing the bounds of the circular bitmap
         final Rect rect = new Rect(0, 0, minDimension, minDimension);
 
+        // Calculate the radius of the circle
         float radius = minDimension / 2f;
 
+        // Set paint properties for anti-aliasing and filtering
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
         paint.setDither(true);
 
+        // Clear the canvas with transparent color
         canvas.drawARGB(0, 0, 0, 0);
+        // Set the color for drawing the circle (optional)
         paint.setColor(Color.parseColor("#BAB399"));
 
-        // Draw a circle
+        // Draw a circle on the canvas
         canvas.drawCircle(radius, radius, radius, paint);
 
         // Use SRC_IN mode to retain only the intersection of the circle and the bitmap
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        // Draw the input bitmap onto the canvas
         canvas.drawBitmap(bitmap, rect, rect, paint);
 
+        // Return the circular bitmap
         return output;
     }
+
 
 }

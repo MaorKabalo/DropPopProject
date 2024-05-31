@@ -109,15 +109,18 @@ public class BallsSharedPreferences {
 
 
 
+    /**
+     * Saves a list of custom ball bitmaps to SharedPreferences.
+     * Each bitmap is converted to a Base64 string before saving.
+     * @param customBalls The list of custom ball bitmaps to be saved.
+     */
     public void saveCustomBallsToSharedPreferences(ArrayList<Bitmap> customBalls) {
         JSONArray jsonArray = new JSONArray();
         try {
             for (int i = 0; i < customBalls.size(); i++) {
-
                 JSONObject jsonObject = new JSONObject();
                 String bitmapBase64 = convertBitmapToBase64(customBalls.get(i));
                 jsonObject.put("bitmap", bitmapBase64);
-
                 // Add more properties as needed
                 jsonArray.put(jsonObject);
             }
@@ -128,6 +131,11 @@ public class BallsSharedPreferences {
         sharedPreferencesEditor.apply();
     }
 
+    /**
+     * Retrieves a list of custom ball bitmaps from SharedPreferences.
+     * Each bitmap is retrieved as a Base64 string and converted back to a Bitmap object.
+     * @return The list of custom ball bitmaps retrieved from SharedPreferences.
+     */
     public ArrayList<Bitmap> getCustomBallsFromSharedPreferences() {
         ArrayList<Bitmap> customBalls = null;
         String customBallsJsonString = sharedPreferences.getString("customBalls", null);
@@ -149,6 +157,7 @@ public class BallsSharedPreferences {
 
         return customBalls;
     }
+
 
 
 

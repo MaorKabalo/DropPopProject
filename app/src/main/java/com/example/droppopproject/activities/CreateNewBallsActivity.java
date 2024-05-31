@@ -15,9 +15,11 @@ import android.graphics.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -56,6 +58,7 @@ public class CreateNewBallsActivity extends AppCompatActivity {
     private ImageButton undoButton;
     private ImageButton fillButton;
     private ImageButton cameraButton;
+    private ProgressBar progressBar;
 
     private SeekBar widthSeekBar;
 
@@ -79,6 +82,8 @@ public class CreateNewBallsActivity extends AppCompatActivity {
         fillButton = findViewById(R.id.fillButton);
         cameraButton = findViewById(R.id.cameraButton);
         widthSeekBar = findViewById(R.id.seekBarWidth);
+        progressBar = findViewById(R.id.progressBarCustom);
+        progressBar.setVisibility(View.GONE);
 
 
         mCreatedCustomBalls = new ArrayList<>();
@@ -127,13 +132,12 @@ public class CreateNewBallsActivity extends AppCompatActivity {
 
             Bitmap createdBall = createBallsCanvas.getBitmapCanvas();
 
-            //saveBitmapAsJPEG(createdBall);
             imageTestView.setImageBitmap(createdBall);
             mCreatedCustomBalls.add(createdBall);
             Toast.makeText(this, "Ball Number " + mCreatedCustomBalls.size() + " Is Saved", Toast.LENGTH_SHORT).show();
             createBallsCanvas.reset(true);
 
-            if(mCreatedCustomBalls.size() == CreateBallsCanvas.MAX_CREATED_BALLS){
+            if(mCreatedCustomBalls.size() == CreateBallsCanvas.MAX_CREATED_BALLS){ //If MAX_CREATED_BALLS balls created, exit automatically
                 Toast.makeText(this,  this.getString(R.string.MAX_BALLS_CREATED), Toast.LENGTH_SHORT).show();
                 BallsSharedPreferences.getInstance(this).saveCustomBallsToSharedPreferences(mCreatedCustomBalls);
                 BallsSharedPreferences.getInstance(this).setEnableCustomBalls(true);
@@ -144,7 +148,9 @@ public class CreateNewBallsActivity extends AppCompatActivity {
 
         });
         saveButton.setOnClickListener(v -> {
+
             if(mCreatedCustomBalls.size() >= 4){
+                progressBar.setVisibility(View.VISIBLE);
                 BallsSharedPreferences.getInstance(this).setEnableCustomBalls(true);
                 BallsSharedPreferences.getInstance(this).saveCustomBallsToSharedPreferences(mCreatedCustomBalls);
                 Intent intent = new Intent(this, HomeActivity.class);
@@ -158,8 +164,6 @@ public class CreateNewBallsActivity extends AppCompatActivity {
         cameraButton.setOnClickListener(v -> {
             showPhotoDialog();
         });
-
-
 
 
 
@@ -200,7 +204,7 @@ public class CreateNewBallsActivity extends AppCompatActivity {
      *         or null if no custom balls have been created.
      */
     public static ArrayList<Bitmap> getCreatedCustomBalls() {
-        if (mCreatedCustomBalls == null)
+        if (mCreatedCustomBalls == null || mCreatedCustomBalls.size() < MIN_CREATED_BALLS)
             return null;
         return new ArrayList<>(mCreatedCustomBalls);
     }
@@ -225,6 +229,10 @@ public class CreateNewBallsActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Displays a dialog for choosing between camera and gallery options for adding a photo.
+     * Upon selecting an option, the corresponding action is triggered.
+     */
     private void showPhotoDialog() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.choose_photo_option_dialog);

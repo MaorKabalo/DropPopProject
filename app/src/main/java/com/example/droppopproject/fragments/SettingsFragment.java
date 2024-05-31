@@ -17,26 +17,30 @@ import com.example.droppopproject.BallsSharedPreferences;
 import com.example.droppopproject.R;
 import com.example.droppopproject.activities.CreateNewBallsActivity;
 import com.example.droppopproject.activities.GameActivity;
-import com.example.droppopproject.game.Ball;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Fragment responsible for managing game settings.
+ * This fragment allows users to enable/disable custom balls and navigate to create new custom balls.
  */
 public class SettingsFragment extends Fragment {
 
+    /** List of saved custom ball bitmaps. */
     private static ArrayList<Bitmap> savedCustomBalls;
+
+    /** Flag to indicate whether custom balls are enabled. */
     public static boolean enableSwitch;
 
+    /** Switch control for enabling/disabling custom balls. */
     private Switch switchEnable;
 
+    /** Instance of BallsSharedPreferences for managing custom balls. */
     private BallsSharedPreferences mBallsSP;
-
 
     /**
      * Default constructor for SettingsFragment.
+     * Constructs a new instance of SettingsFragment.
      */
     public SettingsFragment() {
         // Required empty public constructor
@@ -54,25 +58,21 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-
-
+        // Initialize views and preferences
         switchEnable = view.findViewById(R.id.enableCustom);
         mBallsSP = BallsSharedPreferences.getInstance(getContext());
         savedCustomBalls = mBallsSP.getCustomBallsFromSharedPreferences();
 
-
         // Navigate to CreateNewBallsActivity when custom balls button is clicked
         view.findViewById(R.id.customBalls).setOnClickListener(v -> {
-
-            if(BallsSharedPreferences.getInstance(getContext()).isInMidGame())
-            {
+            // Check if a game is in progress
+            if(mBallsSP.isInMidGame()) {
                 showRestartDialog();
                 return;
             }
-
+            // Disable custom balls and navigate to CreateNewBallsActivity
             switchEnable.setChecked(false);
             BallsSharedPreferences.getInstance(getContext()).setEnableCustomBalls(false);
-
             savedCustomBalls = null;
             Intent intent = new Intent(getContext(), CreateNewBallsActivity.class);
             startActivity(intent);
@@ -84,7 +84,6 @@ public class SettingsFragment extends Fragment {
         }
 
         // Enable/disable custom balls based on their existence
-
         switchEnable.setChecked(BallsSharedPreferences.getInstance(getContext()).getEnableCustomBalls());
         switchEnable.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -97,12 +96,16 @@ public class SettingsFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Shows a dialog to confirm restarting the game.
+     */
     private void showRestartDialog() {
         Dialog dialog = new Dialog(requireContext());
         dialog.setContentView(R.layout.restart_dialog);
 
         dialog.findViewById(R.id.yes_button).setOnClickListener(view -> {
-            BallsSharedPreferences.getInstance(getContext()).resetSharedPreferences(false);
+            mBallsSP.resetSharedPreferences(false);
+            mBallsSP.resetScore();
             Intent intent = new Intent(getContext(), CreateNewBallsActivity.class);
             requireContext().startActivity(intent);
             savedCustomBalls.clear();
@@ -113,7 +116,6 @@ public class SettingsFragment extends Fragment {
         });
 
         dialog.show();
-
     }
 
     /**
@@ -122,9 +124,7 @@ public class SettingsFragment extends Fragment {
      */
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private void enableCustomBalls(Switch switchEnable) {
-
-        if(BallsSharedPreferences.getInstance(getContext()).isInMidGame())
-        {
+        if(mBallsSP.isInMidGame()) {
             showRestartDialog();
             switchEnable.setChecked(false);
             mBallsSP.setEnableCustomBalls(false);
@@ -148,6 +148,4 @@ public class SettingsFragment extends Fragment {
         CreateNewBallsActivity.eraseCreatedCustomBalls();
         mBallsSP.setEnableCustomBalls(false);
     }
-
-
 }
