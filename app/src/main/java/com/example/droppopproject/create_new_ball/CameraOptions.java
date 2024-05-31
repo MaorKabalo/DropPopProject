@@ -80,7 +80,7 @@ public class CameraOptions extends AppCompatActivity {
                         Bitmap bitmap = getBitmapFromUri(uri);
                         if (bitmap != null) {
                             photoTaken = true;
-                            imageTestView.setImageBitmap(bitmap);
+                            imageTestView.setImageBitmap(getCircularBitmap(bitmap));
                         }
                     }
                 });

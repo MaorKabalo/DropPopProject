@@ -424,6 +424,8 @@ public class CreateBallsCanvas extends View {
     /**
      * Crops the drawn circle from the canvas as a bitmap
      *
+     * used when user chooses to draw
+     *
      * @param bitmap The original bitmap to be cropped into a circular shape.
      * @return A new Bitmap containing the cropped circular region.
      */
@@ -495,29 +497,15 @@ public class CreateBallsCanvas extends View {
     /**
      * Converts a Drawable to a Bitmap.
      *
+     * used when choosing a photo or capturing
+     *
      * @param imageView The imageView to fetch.
      * @return The resulting Bitmap.
      */
     public Bitmap getBitmapFromImageView(ImageView imageView) {
-
         Drawable drawable = imageView.getDrawable();
-
-
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
-
-        int width = drawable.getIntrinsicWidth();
-        int height = drawable.getIntrinsicHeight();
-        if (width <= 0) width = 1;
-        if (height <= 0) height = 1;
-
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+        return Bitmap.createScaledBitmap(bitmap, (int) sizesOfCustomBalls.get(numOfBall).width, (int) sizesOfCustomBalls.get(numOfBall++).height, false);
     }
 
 
