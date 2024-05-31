@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.droppopproject.BallsSharedPreferences;
 import com.example.droppopproject.FirebaseControl;
+import com.example.droppopproject.MusicControl;
 import com.example.droppopproject.activities.CreateNewBallsActivity;
 import com.example.droppopproject.activities.GameActivity;
 import com.example.droppopproject.activities.HomeActivity;
@@ -111,6 +112,10 @@ public class GameView extends SurfaceView implements Runnable
     private boolean loadedBallsFromSP;
 
     private Bitmap mBallOrderBitmap;
+
+
+    private MusicControl musicControl;
+
     private void initBallOrderBitmap() {
         mBallOrderBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ball_order), 700, 350, false);
     }
@@ -213,6 +218,8 @@ public class GameView extends SurfaceView implements Runnable
         loadedBallsFromSP = false;
 
         mIsGameOver = false;
+
+
         this.resume();
 
     }
@@ -353,6 +360,9 @@ public class GameView extends SurfaceView implements Runnable
      * @param distBetween The distance between the centers of the balls.
      */
     private void sameBallsCollision(Ball s, Ball t, PointF sCenter, PointF tCenter, double distBetween) {
+
+
+
         // Determine the type of the colliding balls
         int typeOfBalls = s.getBallNum();
 
@@ -385,6 +395,9 @@ public class GameView extends SurfaceView implements Runnable
 
         mBallsSharedPreferences.saveBallsToSharedPreferences(mBalls);
         mBallsSharedPreferences.setScore(mScore);
+
+        MusicControl.playBackgroundSound(R.raw.pop_sound_effect, getContext(), false);
+
     }
 
 
@@ -563,6 +576,8 @@ public class GameView extends SurfaceView implements Runnable
      */
     public void showGameOverDialog() {
 
+        MusicControl.playMainMusic(R.raw.game_over_sound_effect, getContext(), false);
+
         updateUsersNewScore();
 
 
@@ -574,6 +589,7 @@ public class GameView extends SurfaceView implements Runnable
             Dialog dialog = new Dialog(mContext);
             dialog.setContentView(R.layout.game_over_dialog);
             dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(false);
 
             dialog.findViewById(R.id.restart_button).setOnClickListener(v -> {
                 mBallsSharedPreferences.resetSharedPreferences(false);
