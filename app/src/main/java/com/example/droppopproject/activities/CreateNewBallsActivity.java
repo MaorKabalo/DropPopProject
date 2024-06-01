@@ -92,6 +92,10 @@ public class CreateNewBallsActivity extends AppCompatActivity {
 
         mCameraOptions = new CameraOptions(this, createBallsCanvas.circleView);
 
+
+        BallsSharedPreferences.getInstance(this).resetSharedPreferences(false);
+        BallsSharedPreferences.getInstance(this).resetScore();
+
         // Initialize color buttons
         initializeColorButtons();
     }

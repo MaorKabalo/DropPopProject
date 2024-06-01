@@ -48,7 +48,7 @@ public class GameView extends SurfaceView implements Runnable
     //TODO: Scoring system and leaderboard of user to today, week, and all time
 
     public static final double ELASTICITY = 0.8;
-    public static final int SPAWN_NEW_BALL_MILLIS = 400;
+    public static final int SPAWN_NEW_BALL_MILLIS = 200;
     private static final float GRAVITY = 3000;
     private static final float DRAG = 0.2F;
 
@@ -71,7 +71,7 @@ public class GameView extends SurfaceView implements Runnable
 
     public static final long GAME_OVER_TIMEOUT = 3000; // 3 seconds to game over
 
-    private static final float GAME_OVER_Y = 700;
+    private static final float GAME_OVER_Y = 800;
 
     private static float FLOOR_Y;
 
@@ -85,7 +85,7 @@ public class GameView extends SurfaceView implements Runnable
     private long curTime = 0;
     private static double timeFraction = 0.0;
 
-    private ArrayList<Ball> mBalls;
+    public static ArrayList<Ball> mBalls;
     private ArrayList<Bitmap> mCustomBalls;
 
     private Handler mHandler;
@@ -112,12 +112,16 @@ public class GameView extends SurfaceView implements Runnable
     private boolean loadedBallsFromSP;
 
     private Bitmap mBallOrderBitmap;
+    private Bitmap mBackgroundBitmap;
+
+    boolean bitmap1Drawn = false, bitmap2Drawn = false;
 
 
     private MusicControl musicControl;
 
     private void initBallOrderBitmap() {
         mBallOrderBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ball_order), 700, 350, false);
+        mBackgroundBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.game_bg), getWidth(), getHeight(), false);
     }
 
 
@@ -136,6 +140,7 @@ public class GameView extends SurfaceView implements Runnable
     public GameView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
+
     }
 
 
@@ -153,8 +158,10 @@ public class GameView extends SurfaceView implements Runnable
         super.onSizeChanged(w, h, oldW, oldH);
         height = h;
         width = w;
-        FLOOR_Y = (float) (h * 8) / 10; //80% of screen
+        FLOOR_Y = (float) (h * 8) / 10 + 50; //80% of screen
 
+
+        initBallOrderBitmap();
 
 
         if(mBallsSharedPreferences.getEnableCustomBalls()){
@@ -220,6 +227,10 @@ public class GameView extends SurfaceView implements Runnable
         mIsGameOver = false;
 
 
+
+
+
+
         this.resume();
 
     }
@@ -232,8 +243,8 @@ public class GameView extends SurfaceView implements Runnable
     @Override
     public void run() {
 
-        initBallOrderBitmap();
-        
+
+
         while (mRunning) {
 
             updateTime();
@@ -248,9 +259,14 @@ public class GameView extends SurfaceView implements Runnable
             mCanvas = mSurfaceHolder.lockCanvas();
             mCanvas.save();
 
+
+
             mCanvas.drawColor(Color.WHITE);
 
+
             drawScreenInLoop();
+
+
 
             mCanvas.restore();
 
@@ -264,6 +280,12 @@ public class GameView extends SurfaceView implements Runnable
      * Draws the screen including balls, game over line, and ground.
      */
     private void drawScreenInLoop() {
+
+        // Load the bitmap from the drawable resource
+
+        mCanvas.drawBitmap(mBackgroundBitmap, 0, 0, null);
+
+
         Ball b;
         // Iterate through the list of balls
         for (int i = 0; i < mBalls.size(); i++) {
@@ -282,13 +304,15 @@ public class GameView extends SurfaceView implements Runnable
             }
         }
 
+
         // Draw the game over line
         mCanvas.drawLine(0, GAME_OVER_Y, width, GAME_OVER_Y, mGameOverPainter);
         // Draw the ground
         mCanvas.drawRect(0, FLOOR_Y, width, height, mGroundPainter);
+        mCanvas.drawBitmap(mBallOrderBitmap, (float) width / 2 - 350, FLOOR_Y + 30, null);
 
-        // Load the bitmap from the drawable resource
-        mCanvas.drawBitmap(mBallOrderBitmap, (float) width / 2 - 350, FLOOR_Y + 70, null);
+
+
 
     }
 
@@ -396,7 +420,7 @@ public class GameView extends SurfaceView implements Runnable
         mBallsSharedPreferences.saveBallsToSharedPreferences(mBalls);
         mBallsSharedPreferences.setScore(mScore);
 
-        MusicControl.playBackgroundSound(R.raw.pop_sound_effect, getContext(), false);
+
 
     }
 
@@ -641,6 +665,7 @@ public class GameView extends SurfaceView implements Runnable
                 if (distBetween < sumOfRadii) {
 
                     if(s.sameType(t) && s.applyPhysics && t.applyPhysics){
+                        MusicControl.playBackgroundSound(R.raw.pop_sound_effect, getContext(), false);
                         sameBallsCollision(s,t,sCenter,tCenter, distBetween);
                     }
                     else {

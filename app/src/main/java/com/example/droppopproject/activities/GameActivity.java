@@ -3,6 +3,7 @@ package com.example.droppopproject.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,6 +28,7 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
 
+
         mBallsSharedPreferences = BallsSharedPreferences.getInstance(this);
 //        if(getIntent().getBooleanExtra(getString(R.string.RESET_SP), false)){
 //            mBallsSharedPreferences.resetSharedPreferences();
@@ -35,6 +37,8 @@ public class GameActivity extends AppCompatActivity {
 //        }
 
         MusicControl.playMainMusic(R.raw.game_music, this, true);
+
+
 
         mGameView = findViewById(R.id.GameView);
         mGameView.mScoreView = findViewById(R.id.ScoreText);
@@ -47,7 +51,7 @@ public class GameActivity extends AppCompatActivity {
 
 
         mGameView.mHomeButton.setOnClickListener(v -> {
-
+            MusicControl.stopMainMusic();
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
             finish();
@@ -55,10 +59,9 @@ public class GameActivity extends AppCompatActivity {
 
         mGameView.mRestartButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, GameActivity.class);
+            startActivity(intent);
             mBallsSharedPreferences.resetSharedPreferences(false);
             mBallsSharedPreferences.resetScore();
-            //intent.putExtra(getString(R.string.RESET_SP), true);
-            startActivity(intent);
             finish();
         });
 

@@ -104,8 +104,7 @@ public class SettingsFragment extends Fragment {
         dialog.setContentView(R.layout.restart_dialog);
 
         dialog.findViewById(R.id.yes_button).setOnClickListener(view -> {
-            mBallsSP.resetSharedPreferences(false);
-            mBallsSP.resetScore();
+
             Intent intent = new Intent(getContext(), CreateNewBallsActivity.class);
             requireContext().startActivity(intent);
             savedCustomBalls.clear();

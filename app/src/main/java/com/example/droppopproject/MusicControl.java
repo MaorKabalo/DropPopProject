@@ -62,7 +62,7 @@ public class MusicControl {
     /**
      * Stops the main music playback.
      */
-    private static void stopMainMusic() {
+    public static void stopMainMusic() {
         // If the main music MediaPlayer is playing, stop playback, release resources,
         // set the MediaPlayer to null, and reset the current resource ID.
         if (gameMediaPlayer != null && gameMediaPlayer.isPlaying()) {
@@ -76,7 +76,7 @@ public class MusicControl {
     /**
      * Stops the background sound playback.
      */
-    private static void stopBackgroundSound() {
+    public static void stopBackgroundSound() {
         // If the background sound MediaPlayer is playing, stop playback, release resources,
         // set the MediaPlayer to null, and reset the current resource ID.
         if (popMediaPlayer != null && popMediaPlayer.isPlaying()) {
