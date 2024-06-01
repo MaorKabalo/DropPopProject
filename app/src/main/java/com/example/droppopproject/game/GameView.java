@@ -48,7 +48,7 @@ public class GameView extends SurfaceView implements Runnable
     //TODO: Scoring system and leaderboard of user to today, week, and all time
 
     public static final double ELASTICITY = 0.8;
-    public static final int SPAWN_NEW_BALL_MILLIS = 200;
+    public static final int SPAWN_NEW_BALL_MILLIS = 400;
     private static final float GRAVITY = 3000;
     private static final float DRAG = 0.2F;
 
@@ -420,7 +420,7 @@ public class GameView extends SurfaceView implements Runnable
         mBallsSharedPreferences.saveBallsToSharedPreferences(mBalls);
         mBallsSharedPreferences.setScore(mScore);
 
-
+        MusicControl.playBackgroundSound(R.raw.pop_sound_effect, getContext(), false);
 
     }
 
@@ -665,7 +665,7 @@ public class GameView extends SurfaceView implements Runnable
                 if (distBetween < sumOfRadii) {
 
                     if(s.sameType(t) && s.applyPhysics && t.applyPhysics){
-                        MusicControl.playBackgroundSound(R.raw.pop_sound_effect, getContext(), false);
+                        //MusicControl.playBackgroundSound(R.raw.pop_sound_effect, getContext(), false);
                         sameBallsCollision(s,t,sCenter,tCenter, distBetween);
                     }
                     else {
