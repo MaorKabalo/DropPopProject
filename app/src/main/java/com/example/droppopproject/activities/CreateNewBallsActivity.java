@@ -62,7 +62,7 @@ public class CreateNewBallsActivity extends AppCompatActivity {
 
     private SeekBar widthSeekBar;
 
-    public static ArrayList<Bitmap> mCreatedCustomBalls;
+    private static ArrayList<Bitmap> mCreatedCustomBalls;
 
     private CameraOptions mCameraOptions;
 
