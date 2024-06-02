@@ -19,8 +19,6 @@ public class GameActivity extends AppCompatActivity {
 
     private BallsSharedPreferences mBallsSharedPreferences;
 
-    private MusicControl musicControl;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +28,6 @@ public class GameActivity extends AppCompatActivity {
 
 
         mBallsSharedPreferences = BallsSharedPreferences.getInstance(this);
-//        if(getIntent().getBooleanExtra(getString(R.string.RESET_SP), false)){
-//            mBallsSharedPreferences.resetSharedPreferences();
-//            mBallsSharedPreferences.resetScore();
-//
-//        }
 
         MusicControl.playMainMusic(R.raw.game_music, this, true);
 
@@ -45,8 +38,6 @@ public class GameActivity extends AppCompatActivity {
         mGameView.mScoreView.setText(String.valueOf(mGameView.mScore));
         mGameView.mHomeButton = findViewById(R.id.HomeButton);
         mGameView.mRestartButton = findViewById(R.id.RestartButton);
-
-        //mGameView.mCloseButton = findViewById(R.id.closeGameButton);
 
 
 

@@ -1,7 +1,7 @@
 <resources>
 
     <!-- App Name -->
-    <string name="app_name">DropPopProject</string>
+    <string name="app_name">Drop-Pop</string>
 
     <!-- BALL JSON FIELD NAMES -->
     <string name="BALL_JSON_ANGLE">angle</string>
