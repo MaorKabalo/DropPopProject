@@ -132,7 +132,7 @@ public class SettingsFragment extends Fragment {
 
         dialog.findViewById(R.id.yes_button).setOnClickListener(view -> {
             mBallsSP.setEnableCustomBalls(false);
-            savedCustomBalls.clear();
+            if(savedCustomBalls != null){savedCustomBalls.clear();}
             Intent intent = new Intent(getContext(), CreateNewBallsActivity.class);
             requireContext().startActivity(intent);
         });
