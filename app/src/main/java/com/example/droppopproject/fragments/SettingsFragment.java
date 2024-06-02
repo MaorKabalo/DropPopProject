@@ -34,6 +34,7 @@ public class SettingsFragment extends Fragment {
     public static boolean enableSwitch;
 
     /** Switch control for enabling/disabling custom balls. */
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch switchEnable;
 
     /** Instance of BallsSharedPreferences for managing custom balls. */

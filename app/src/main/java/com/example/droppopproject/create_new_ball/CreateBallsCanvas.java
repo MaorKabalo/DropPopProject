@@ -81,6 +81,8 @@ public class CreateBallsCanvas extends View {
         shapeToDraw = null;
         shapes = new ArrayList<>();
 
+        numOfBall = 0;
+
         setSizesOfCustomBalls();
 
     }
@@ -104,6 +106,7 @@ public class CreateBallsCanvas extends View {
                 sizesOfCustomBalls.add(new BallSize(bitmap.getWidth(), bitmap.getHeight()));
             }
         }
+
     }
 
 
