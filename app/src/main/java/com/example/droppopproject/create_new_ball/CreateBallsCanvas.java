@@ -81,6 +81,8 @@ public class CreateBallsCanvas extends View {
         shapeToDraw = null;
         shapes = new ArrayList<>();
 
+        numOfBall = 0;
+
         setSizesOfCustomBalls();
 
     }
@@ -95,13 +97,16 @@ public class CreateBallsCanvas extends View {
      */
     @SuppressLint("DiscouragedApi")
     private void setSizesOfCustomBalls(){
-        sizesOfCustomBalls = new ArrayList<>();
-        Bitmap bitmap;
-        for (int i = 0; i < MAX_CREATED_BALLS; i++){
-            int resourceId = getContext().getResources().getIdentifier("ball_" + i , "drawable", getContext().getPackageName());
-            bitmap = BitmapFactory.decodeResource(getContext().getResources(), resourceId);
-            sizesOfCustomBalls.add(new BallSize(bitmap.getWidth(), bitmap.getHeight()));
+        if (sizesOfCustomBalls == null){
+            sizesOfCustomBalls = new ArrayList<>();
+            Bitmap bitmap;
+            for (int i = 0; i < MAX_CREATED_BALLS; i++){
+                int resourceId = getContext().getResources().getIdentifier("ball_" + i , "drawable", getContext().getPackageName());
+                bitmap = BitmapFactory.decodeResource(getContext().getResources(), resourceId);
+                sizesOfCustomBalls.add(new BallSize(bitmap.getWidth(), bitmap.getHeight()));
+            }
         }
+
     }
 
 
