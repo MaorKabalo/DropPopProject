@@ -44,6 +44,7 @@
 
      <!-- Create Custom Balls -->
      <string name="MAX_BALLS_CREATED">Max Custom Balls are Created! Returning back to home</string>
+    <string name="CREATE_FIRST">First create your own custom balls!</string>
 
 
 </resources>

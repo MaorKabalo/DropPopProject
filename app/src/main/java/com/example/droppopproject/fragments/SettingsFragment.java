@@ -99,7 +99,10 @@ public class SettingsFragment extends Fragment {
     }
 
     /**
-     * Shows a dialog to confirm restarting the game.
+     * Shows a dialog to confirm restarting the game when toggling the switch.
+     * This method is called when the user toggles the switch control to enable/disable custom balls.
+     * It prompts the user with a dialog to confirm whether they want to restart the game.
+     * If the user confirms restarting, it resets the game settings and enables custom balls.
      */
     private void showRestartDialogForSwitch() {
         switchEnable.setChecked(false);
@@ -124,7 +127,12 @@ public class SettingsFragment extends Fragment {
         dialog.show();
     }
 
-
+    /**
+     * Shows a dialog to confirm restarting the game when navigating to create new custom balls.
+     * This method is called when the user clicks on the button to navigate to create new custom balls.
+     * It prompts the user with a dialog to confirm whether they want to restart the game.
+     * If the user confirms restarting, it navigates to the create new custom balls activity.
+     */
     private void showRestartDialogForButton() {
         switchEnable.setChecked(false);
         Dialog dialog = new Dialog(requireContext());
@@ -143,6 +151,7 @@ public class SettingsFragment extends Fragment {
 
         dialog.show();
     }
+
 
     /**
      * Enable custom balls if they exist; otherwise, show a toast message.

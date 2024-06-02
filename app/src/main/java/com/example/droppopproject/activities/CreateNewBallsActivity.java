@@ -1,7 +1,5 @@
 package com.example.droppopproject.activities;
 
-import static android.app.PendingIntent.getActivity;
-
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -14,7 +12,6 @@ import android.graphics.Bitmap;
 import android.graphics.Camera;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -25,10 +22,8 @@ import android.widget.Toast;
 
 import com.example.droppopproject.BallsSharedPreferences;
 import com.example.droppopproject.R;
-
 import com.example.droppopproject.create_new_ball.CameraOptions;
 import com.example.droppopproject.create_new_ball.CreateBallsCanvas;
-import com.example.droppopproject.fragments.SettingsFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -45,28 +40,30 @@ public class CreateNewBallsActivity extends AppCompatActivity {
     public static final int GREEN = R.color.green;
     public static final int BLUE = R.color.blue;
     public static final int MIN_CREATED_BALLS = 4;
+
     private CreateBallsCanvas createBallsCanvas;
     private final HashMap<Integer, FloatingActionButton> colorButtons = new HashMap<>();
-
-
     private Button resetButton;
     private Button saveButton;
-
     private Button nextButton;
-
     private ImageView imageTestView;
     private ImageButton undoButton;
     private ImageButton fillButton;
     private ImageButton cameraButton;
     private ProgressBar progressBar;
-
     private SeekBar widthSeekBar;
 
     private static ArrayList<Bitmap> mCreatedCustomBalls;
-
     private CameraOptions mCameraOptions;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_create_new_balls);
 
+        initViews();
+        setButtonClickListeners();
+    }
 
     /**
      * Initializes views and sets up the activity.
@@ -85,18 +82,12 @@ public class CreateNewBallsActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBarCustom);
         progressBar.setVisibility(View.GONE);
 
-
         mCreatedCustomBalls = new ArrayList<>();
-
-
-
         mCameraOptions = new CameraOptions(this, createBallsCanvas.circleView);
-
 
         BallsSharedPreferences.getInstance(this).resetSharedPreferences(false);
         BallsSharedPreferences.getInstance(this).resetScore();
 
-        // Initialize color buttons
         initializeColorButtons();
     }
 
@@ -111,70 +102,54 @@ public class CreateNewBallsActivity extends AppCompatActivity {
         colorButtons.put(BLUE, findViewById(R.id.BlueButton));
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_new_balls);
-
-        initViews();
-        setButtonClickListeners();
-    }
-
     /**
      * Sets click listeners for buttons in the activity.
      */
     private void setButtonClickListeners() {
-
-
-
         resetButton.setOnClickListener(v -> {
             createBallsCanvas.reset(true);
             imageTestView.setImageBitmap(createBallsCanvas.getBitmapCanvas());
         });
+
         undoButton.setOnClickListener(v -> createBallsCanvas.undo());
+
         nextButton.setOnClickListener(v -> {
-
             Bitmap createdBall = createBallsCanvas.getBitmapCanvas();
-
             imageTestView.setImageBitmap(createdBall);
             mCreatedCustomBalls.add(createdBall);
             Toast.makeText(this, "Ball Number " + mCreatedCustomBalls.size() + " Is Saved", Toast.LENGTH_SHORT).show();
             createBallsCanvas.reset(true);
 
-            if(mCreatedCustomBalls.size() == CreateBallsCanvas.MAX_CREATED_BALLS){ //If MAX_CREATED_BALLS balls created, exit automatically
-                Toast.makeText(this,  this.getString(R.string.MAX_BALLS_CREATED), Toast.LENGTH_SHORT).show();
+            if (mCreatedCustomBalls.size() == CreateBallsCanvas.MAX_CREATED_BALLS) {
+                Toast.makeText(this, this.getString(R.string.MAX_BALLS_CREATED), Toast.LENGTH_SHORT).show();
                 BallsSharedPreferences.getInstance(this).saveCustomBallsToSharedPreferences(mCreatedCustomBalls);
                 BallsSharedPreferences.getInstance(this).setEnableCustomBalls(true);
                 Intent intent = new Intent(this, HomeActivity.class);
                 startActivity(intent);
                 finish();
             }
-
         });
-        saveButton.setOnClickListener(v -> {
 
-            if(mCreatedCustomBalls.size() >= 4){
+        saveButton.setOnClickListener(v -> {
+            if (mCreatedCustomBalls.size() >= MIN_CREATED_BALLS) {
                 progressBar.setVisibility(View.VISIBLE);
                 BallsSharedPreferences.getInstance(this).setEnableCustomBalls(true);
                 BallsSharedPreferences.getInstance(this).saveCustomBallsToSharedPreferences(mCreatedCustomBalls);
                 Intent intent = new Intent(this, HomeActivity.class);
                 startActivity(intent);
                 finish();
-            }
-            else {
+            } else {
                 Toast.makeText(this, "At least " + MIN_CREATED_BALLS + " created balls are required", Toast.LENGTH_SHORT).show();
             }
         });
-        cameraButton.setOnClickListener(v -> {
-            showPhotoDialog();
-        });
 
-
+        cameraButton.setOnClickListener(v -> showPhotoDialog());
 
         for (Integer color : colorButtons.keySet()) {
             FloatingActionButton button = colorButtons.get(color);
-            assert button != null;
-            button.setOnClickListener(v -> createBallsCanvas.setDrawColor(color));
+            if (button != null) {
+                button.setOnClickListener(v -> createBallsCanvas.setDrawColor(color));
+            }
         }
 
         widthSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -196,9 +171,7 @@ public class CreateNewBallsActivity extends AppCompatActivity {
             }
         });
 
-        fillButton.setOnClickListener(view -> {
-            createBallsCanvas.toggleFillMode();
-        });
+        fillButton.setOnClickListener(view -> createBallsCanvas.toggleFillMode());
     }
 
     /**
@@ -232,7 +205,6 @@ public class CreateNewBallsActivity extends AppCompatActivity {
         }
     }
 
-
     /**
      * Displays a dialog for choosing between camera and gallery options for adding a photo.
      * Upon selecting an option, the corresponding action is triggered.
@@ -252,13 +224,5 @@ public class CreateNewBallsActivity extends AppCompatActivity {
         });
 
         dialog.show();
-
     }
-
-
-
-
-
 }
-
-
