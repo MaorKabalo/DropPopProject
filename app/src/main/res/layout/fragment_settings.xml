@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".fragments.SettingsFragment">
+    tools:context=".fragments.SettingsFragment"
+    android:background="@drawable/settings">
 
     <Button
         android:id="@+id/customBalls"
@@ -21,6 +22,20 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Enable Custom Balls"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:thumbTint="#03A9F4"
+        android:trackTint="#03A9F4"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="42dp" />
+
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout" />
 
 </LinearLayout>

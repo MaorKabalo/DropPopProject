@@ -87,7 +87,7 @@ public class HomeActivity extends AppCompatActivity {
             tab.setIcon(tabIcons[position]);
         }).attach();
 
-        setLogoutButton();
+       //setLogoutButton();
     }
 
     /**
@@ -137,26 +137,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Sets up the logout button's click listener to handle user logout.
-     */
-    private void setLogoutButton() {
 
-        Button logoutButton = findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(v -> {
-            mSP.resetSharedPreferences(true);
-            mSP.resetScore();
-            logout();
-        });
-    }
 
-    /**
-     * Logs out the current user and redirects to the login screen.
-     */
-    private void logout() {
-        FirebaseAuth.getInstance().signOut();
-        Intent myIntent = new Intent(this, LoginActivity.class);
-        startActivity(myIntent);
-        finish();
-    }
+
 }

@@ -17,7 +17,9 @@ import com.example.droppopproject.BallsSharedPreferences;
 import com.example.droppopproject.R;
 import com.example.droppopproject.activities.CreateNewBallsActivity;
 import com.example.droppopproject.activities.GameActivity;
+import com.example.droppopproject.activities.LoginActivity;
 import com.example.droppopproject.game.Ball;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -79,6 +81,8 @@ public class SettingsFragment extends Fragment {
             Intent intent = new Intent(getContext(), CreateNewBallsActivity.class);
             startActivity(intent);
         });
+
+        setLogoutButton(view);
 
         // Check if custom balls have been previously created
         if (savedCustomBalls == null) {
@@ -184,4 +188,31 @@ public class SettingsFragment extends Fragment {
         CreateNewBallsActivity.eraseCreatedCustomBalls();
         mBallsSP.setEnableCustomBalls(false);
     }
+
+
+
+    private void setLogoutButton(View view) {
+
+        view.findViewById(R.id.logoutButton).setOnClickListener(v -> {
+            mBallsSP.resetSharedPreferences(true);
+            mBallsSP.resetScore();
+            logout();
+        });
+    }
+
+
+    /**
+     * Logs out the current user and redirects to the login screen.
+     */
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+        Intent myIntent = new Intent(getActivity(), LoginActivity.class);
+        startActivity(myIntent);
+        if (getActivity() != null) {
+            getActivity().finish();
+        }
+    }
+
+
+
 }
