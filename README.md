@@ -1,6 +1,6 @@
 # Drop Pop - Stacking Balls Game
 
-Welcome to Suika Game, a fun and addictive game developed in Android Studio! Smash objects, create your own balls, and compete on the leaderboard to become the ultimate smasher!
+Welcome to Drop-Pop, a fun and addictive game developed in Android Studio! Smash objects, create your own balls, and compete on the leaderboard to become the ultimate smasher!
 
 ## Features
 
